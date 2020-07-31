@@ -1,5 +1,7 @@
 import requests
 import re
+import nltk
+nltk.download('stopwords')
 from bs4 import BeautifulSoup as soup
 
 def get_news(url):
@@ -11,11 +13,12 @@ def get_news(url):
     return content_raw
 
 def content_raw_to_array(content_raw):
+    stop_words = nltk.corpus.stopwords.words('portuguese')
     text_array = []
     for content in content_raw:
-        for word in re.sub(r"[()\"/;:<>{}+=~|!?]", '',
-                    content.text.lower().replace('. ', ' ').replace(', ', ' ') ).split(' '):
-            text_array.append(word)
+        for word in re.sub(r"[()\"/;:<>{}+=~|!?]", '', content.text.lower().replace('. ', ' ').replace(', ', ' ') ).split(' '):
+            if word and not word in stop_words:
+                text_array.append(word)
     return text_array
 
 def count_words(text_array):
@@ -38,6 +41,8 @@ def main():
     count_of_words = count_words(array_of_words)
     ranked_words = rank_words(count_of_words)
 
+    print(array_of_words)
+    print(count_of_words)
     print(ranked_words)
 
 if __name__ == "__main__":
