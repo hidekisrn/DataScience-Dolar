@@ -42,7 +42,7 @@ class NewsParser:
 
     def generate_phrases_array(self):
         """
-        função que separa um
+        função que unifica o array de palavras de cada frase, retornando uma matriz de palavras.
         """
         phrases_array = []
         for phrase in self.content_raw_to_phrases():
@@ -50,6 +50,9 @@ class NewsParser:
         return phrases_array
         
     def count_words(self):
+        """
+        função que retorna a frequência em forma de dicionário de cada palavra existente no texto.
+        """
         dictionary = {}
         for n in self.generate_phrases_array():
             for i in n:
@@ -60,6 +63,9 @@ class NewsParser:
         return dictionary
 
     def rank_words(self):
+        """
+        função que retorna um array de tuplas, na ordem crescente, a frequência de palavras no texto.
+        """
         sort_value = {}
         sort_value = sorted(self.count_words().items(), key=lambda x: x[1], reverse=True)
         return sort_value
@@ -67,8 +73,5 @@ class NewsParser:
     def __repr__(self):
         return f'<NewsParser of: {self.url}>'
 
-
-
-
-
+#link da notícia usada no programa:
 #'https://g1.globo.com/economia/noticia/2020/07/27/dolar.ghtml'
